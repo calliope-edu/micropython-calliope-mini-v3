@@ -32,7 +32,7 @@ After setting up, go to the `src/` directory and build
 
 That will build both `libmicropython.a` (from source in `src/codal_port/`) and
 the CODAL app (from source in `src/codal_app/`).  The resulting firmware will be
-`MICROBIT.hex` in the `src/` directory which can be copied to the micro:bit.
+`MINI.hex` in the `src/` directory which can be copied to the micro:bit.
 
 Once the firmware is on the device there will appear a REPL prompt on the serial
 port.  To test it you can run:
