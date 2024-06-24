@@ -27,7 +27,7 @@
 #include "py/builtin.h"
 
 const char microbit_help_text[] =
-    "Welcome to MicroPython on the micro:bit!\n"
+    "Welcome to MicroPython on the Calliope mini!\n"
     "\n"
     "Try these commands:\n"
     "  display.scroll('Hello')\n"
@@ -53,5 +53,5 @@ const char microbit_help_text[] =
     "\n"
     "For more information about Python, visit: http://python.org/\n"
     "To find out about MicroPython, visit: http://micropython.org/\n"
-    "Python/micro:bit documentation is here: https://microbit-micropython.readthedocs.io/\n"
+    "For Python/Calliope mini documentation check: https://calliope.cc/programmieren/editoren/python/\n"
 ;

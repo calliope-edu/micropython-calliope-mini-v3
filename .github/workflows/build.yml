@@ -36,5 +36,5 @@ jobs:
       - name: Upload hex file
         uses: actions/upload-artifact@v3
         with:
-          name: MICROBIT-MICROPYTHON-${{ github.sha }}.hex
-          path: src/MICROBIT.hex
+          name: MINI3-MICROPYTHON-${{ github.sha }}.hex
+          path: src/MINI.hex
