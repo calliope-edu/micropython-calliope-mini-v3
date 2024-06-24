@@ -8,7 +8,7 @@ CODAL_BUILD = $(CODAL_DIR)/build
 CODAL_LIBRARIES = $(CODAL_DIR)/libraries
 SRC_HEX = $(BUILD)/MICROBIT.hex
 SRC_MAP = $(CODAL_BUILD)/MICROBIT.map
-DEST_HEX = ./MICROBIT.hex
+DEST_HEX = ./MINI.hex
 
 define CODAL_CLEAN
 	git -C $(CODAL_DIR) checkout CMakeLists.txt
@@ -50,4 +50,4 @@ clean:
 	$(RM) -rf $(BUILD)
 	$(RM) -rf $(CODAL_BUILD)
 	$(RM) -rf $(CODAL_LIBRARIES)
-	$(RM) MICROBIT.hex
+	$(RM) MINI.hex
