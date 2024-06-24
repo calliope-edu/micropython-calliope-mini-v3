@@ -48,9 +48,7 @@ NRF52Pin *const pin_obj[] = {
     &uBit.io.P14,
     &uBit.io.P15,
     &uBit.io.A1RX, // Calliope renamed
-    &uBit.io.P19, // external I2C SCL
     &uBit.io.A0SCL, // external I2C SCL // Calliope renamed
-    &uBit.io.P20, // external I2C SDA
     &uBit.io.A0SDA, // external I2C SDA // Calliope renamed
     &uBit.io.logo,
     &uBit.io.speaker,
