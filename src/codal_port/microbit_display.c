@@ -124,7 +124,7 @@ MP_DEFINE_CONST_FUN_OBJ_KW(microbit_display_scroll_obj, 1, microbit_display_scro
 
 mp_obj_t microbit_display_on_func(mp_obj_t self_in) {
     microbit_display_obj_t *self = MP_OBJ_TO_PTR(self_in);
-    microbit_obj_pin_acquire(&microbit_p3_obj, microbit_pin_mode_display);
+    microbit_obj_pin_acquire(&microbit_p18_obj, microbit_pin_mode_display);
     microbit_obj_pin_acquire(&microbit_p4_obj, microbit_pin_mode_display);
     microbit_obj_pin_acquire(&microbit_p6_obj, microbit_pin_mode_display);
     microbit_obj_pin_acquire(&microbit_p7_obj, microbit_pin_mode_display);

@@ -164,7 +164,7 @@ STATIC mp_obj_t microbit_scale(size_t n_args, const mp_obj_t *pos_args, mp_map_t
 STATIC MP_DEFINE_CONST_FUN_OBJ_KW(microbit_scale_obj, 0, microbit_scale);
 
 STATIC const mp_rom_map_elem_t microbit_module_globals_table[] = {
-    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_microbit) },
+    { MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR_calliopemini) },
 
     { MP_ROM_QSTR(MP_QSTR_Image), (mp_obj_t)&microbit_image_type },
     { MP_ROM_QSTR(MP_QSTR_Sound), MP_ROM_PTR(&microbit_sound_type) },
@@ -210,11 +210,19 @@ STATIC const mp_rom_map_elem_t microbit_module_globals_table[] = {
     { MP_ROM_QSTR(MP_QSTR_pin13), MP_ROM_PTR(&microbit_p13_obj) },
     { MP_ROM_QSTR(MP_QSTR_pin14), MP_ROM_PTR(&microbit_p14_obj) },
     { MP_ROM_QSTR(MP_QSTR_pin15), MP_ROM_PTR(&microbit_p15_obj) },
-    { MP_ROM_QSTR(MP_QSTR_pin16), MP_ROM_PTR(&microbit_p16_obj) },
-    { MP_ROM_QSTR(MP_QSTR_pin19), MP_ROM_PTR(&microbit_p19_obj) },
-    { MP_ROM_QSTR(MP_QSTR_pin20), MP_ROM_PTR(&microbit_p20_obj) },
+    { MP_ROM_QSTR(MP_QSTR_pin_A1_RX), MP_ROM_PTR(&microbit_p16_obj) }, // Calliope change to be congruent to Makecode
+    { MP_ROM_QSTR(MP_QSTR_pin_A0_SCL), MP_ROM_PTR(&microbit_p19_obj) }, // Calliope change to be congruent to Makecode
+    { MP_ROM_QSTR(MP_QSTR_pin_A0_SDA), MP_ROM_PTR(&microbit_p20_obj) }, // Calliope change to be congruent to Makecode
     { MP_ROM_QSTR(MP_QSTR_pin_logo), MP_ROM_PTR(&microbit_pin_logo_obj) },
     { MP_ROM_QSTR(MP_QSTR_pin_speaker), MP_ROM_PTR(&microbit_pin_speaker_obj) },
+    { MP_ROM_QSTR(MP_QSTR_pin_A1_TX), MP_ROM_PTR(&microbit_p17_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin18), MP_ROM_PTR(&microbit_p18_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin_RGB), MP_ROM_PTR(&microbit_pin_RGB_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin_M0_DIR), MP_ROM_PTR(&microbit_pin_M_A_IN1_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin_M0_SPEED), MP_ROM_PTR(&microbit_pin_M_A_IN2_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin_M1_DIR), MP_ROM_PTR(&microbit_pin_M_B_IN1_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin_M1_SPEED), MP_ROM_PTR(&microbit_pin_M_B_IN2_obj) }, // Calliope Added
+    { MP_ROM_QSTR(MP_QSTR_pin_M_MODE), MP_ROM_PTR(&microbit_pin_M_MODE_obj) }, // Calliope Added
 };
 
 STATIC MP_DEFINE_CONST_DICT(microbit_module_globals, microbit_module_globals_table);
