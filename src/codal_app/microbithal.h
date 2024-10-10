@@ -63,7 +63,15 @@ extern "C" {
 #define MICROBIT_HAL_PIN_SPEAKER (20)
 #define MICROBIT_HAL_PIN_USB_TX (30)
 #define MICROBIT_HAL_PIN_USB_RX (31)
-#define MICROBIT_HAL_PIN_MIXER  (33)
+#define MICROBIT_HAL_PIN_MIXER  (41)
+#define MICROBIT_HAL_PIN_P17    (33) // Calliope added
+#define MICROBIT_HAL_PIN_P18    (34) // Calliope added
+#define MICROBIT_HAL_PIN_RGB    (35) // Calliope added
+#define MICROBIT_HAL_PIN_M_A_IN1    (36) // Calliope added
+#define MICROBIT_HAL_PIN_M_A_IN2    (37) // Calliope added
+#define MICROBIT_HAL_PIN_M_B_IN1    (38) // Calliope added
+#define MICROBIT_HAL_PIN_M_B_IN2    (39) // Calliope added
+#define MICROBIT_HAL_PIN_M_MODE    (40) // Calliope added
 
 // These match the micro:bit v1 constants.
 #define MICROBIT_HAL_PIN_PULL_UP (0)
