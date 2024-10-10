@@ -31,8 +31,7 @@
 const microbit_pin_obj_t microbit_p0_obj  = {{&microbit_touch_pin_type}, 0, MICROBIT_HAL_PIN_P0,  MODE_UNUSED};
 const microbit_pin_obj_t microbit_p1_obj  = {{&microbit_touch_pin_type}, 1, MICROBIT_HAL_PIN_P1,  MODE_UNUSED};
 const microbit_pin_obj_t microbit_p2_obj  = {{&microbit_touch_pin_type}, 2, MICROBIT_HAL_PIN_P2,  MODE_UNUSED};
-const microbit_pin_obj_t microbit_p3_obj  = {{&microbit_ad_pin_type},    3, MICROBIT_HAL_PIN_P3,  MODE_DISPLAY};
-const microbit_pin_obj_t microbit_p4_obj  = {{&microbit_ad_pin_type},    4, MICROBIT_HAL_PIN_P4,  MODE_DISPLAY};
+const microbit_pin_obj_t microbit_p3_obj  = {{&microbit_touch_pin_type}, 3, MICROBIT_HAL_PIN_P3,  MODE_UNUSED}; // Calliope Changeconst microbit_pin_obj_t microbit_p4_obj  = {{&microbit_ad_pin_type},    4, MICROBIT_HAL_PIN_P4,  MODE_DISPLAY};
 const microbit_pin_obj_t microbit_p5_obj  = {{&microbit_dig_pin_type},   5, MICROBIT_HAL_PIN_P5,  MODE_BUTTON};
 const microbit_pin_obj_t microbit_p6_obj  = {{&microbit_dig_pin_type},   6, MICROBIT_HAL_PIN_P6,  MODE_DISPLAY};
 const microbit_pin_obj_t microbit_p7_obj  = {{&microbit_dig_pin_type},   7, MICROBIT_HAL_PIN_P7,  MODE_DISPLAY};
@@ -44,12 +43,21 @@ const microbit_pin_obj_t microbit_p12_obj = {{&microbit_dig_pin_type},  12, MICR
 const microbit_pin_obj_t microbit_p13_obj = {{&microbit_dig_pin_type},  13, MICROBIT_HAL_PIN_P13, MODE_UNUSED};
 const microbit_pin_obj_t microbit_p14_obj = {{&microbit_dig_pin_type},  14, MICROBIT_HAL_PIN_P14, MODE_UNUSED};
 const microbit_pin_obj_t microbit_p15_obj = {{&microbit_dig_pin_type},  15, MICROBIT_HAL_PIN_P15, MODE_UNUSED};
-const microbit_pin_obj_t microbit_p16_obj = {{&microbit_dig_pin_type},  16, MICROBIT_HAL_PIN_P16, MODE_UNUSED};
+const microbit_pin_obj_t microbit_p16_obj = {{&microbit_ad_pin_type},   16, MICROBIT_HAL_PIN_P16, MODE_UNUSED}; // Calliope Change
 const microbit_pin_obj_t microbit_p19_obj = {{&microbit_dig_pin_type},  19, MICROBIT_HAL_PIN_P19, MODE_I2C};
 const microbit_pin_obj_t microbit_p20_obj = {{&microbit_dig_pin_type},  20, MICROBIT_HAL_PIN_P20, MODE_I2C};
 
 const microbit_pin_obj_t microbit_pin_logo_obj = {{&microbit_touch_only_pin_type}, 30, MICROBIT_HAL_PIN_LOGO, MODE_UNUSED};
 const microbit_pin_obj_t microbit_pin_speaker_obj = {{&microbit_dig_pin_type}, 31, MICROBIT_HAL_PIN_SPEAKER, MODE_UNUSED};
+
+const microbit_pin_obj_t microbit_p17_obj = {{&microbit_dig_pin_type},  17, MICROBIT_HAL_PIN_P17, MODE_UNUSED}; // Calliope Added
+const microbit_pin_obj_t microbit_p18_obj = {{&microbit_dig_pin_type},  18, MICROBIT_HAL_PIN_P18, MODE_DISPLAY}; // Calliope Added
+const microbit_pin_obj_t microbit_pin_RGB_obj = {{&microbit_dig_pin_type},  21, MICROBIT_HAL_PIN_RGB, MODE_UNUSED}; // Calliope Added
+const microbit_pin_obj_t microbit_pin_M_A_IN1_obj = {{&microbit_dig_pin_type},  22, MICROBIT_HAL_PIN_M_A_IN1, MODE_UNUSED}; // Calliope Added
+const microbit_pin_obj_t microbit_pin_M_A_IN2_obj = {{&microbit_dig_pin_type},  23, MICROBIT_HAL_PIN_M_A_IN2, MODE_UNUSED}; // Calliope Added
+const microbit_pin_obj_t microbit_pin_M_B_IN1_obj = {{&microbit_dig_pin_type},  24, MICROBIT_HAL_PIN_M_B_IN1, MODE_UNUSED}; // Calliope Added
+const microbit_pin_obj_t microbit_pin_M_B_IN2_obj = {{&microbit_dig_pin_type},  25, MICROBIT_HAL_PIN_M_B_IN2, MODE_UNUSED}; // Calliope Added
+const microbit_pin_obj_t microbit_pin_M_MODE_obj = {{&microbit_dig_pin_type},  26, MICROBIT_HAL_PIN_M_MODE, MODE_UNUSED}; // Calliope Added
 
 static mp_obj_t microbit_pin_touch_calibrate(mp_obj_t self_in) {
     microbit_pin_obj_t *self = MP_OBJ_TO_PTR(self_in);

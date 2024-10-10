@@ -1,3 +1,4 @@
 src/build
 src/MICROBIT.hex
 src/codal_port/build
+src/MINI.hex
