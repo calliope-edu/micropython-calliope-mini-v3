@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         # macos-13 is x86_64, and macos-14 is arm64
-        os: [ubuntu-22.04, macos-13, macos-14]
+        os: [ubuntu-22.04]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: build.py ${{ matrix.os }}
@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MICROBIT-MICROPYTHON-${{ github.sha }}-${{ matrix.os }}.hex
-          path: src/MICROBIT.hex
+          path: src/MINI.hex
