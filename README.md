@@ -1,4 +1,4 @@
-MicroPython on the Calliope mini via CODAL
+MicroPython on the Calliope mini 3 via CODAL
 ======================================
 
 This is a port of MicroPython to the Calliope mini V3 which uses the CODAL as the
