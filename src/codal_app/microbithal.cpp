@@ -229,7 +229,7 @@ int microbit_hal_pin_touch_state(int pin, int *was_touched, int *num_touches) {
     if (was_touched != NULL || num_touches != NULL) {
         int pin_state_index;
         if (pin == MICROBIT_HAL_PIN_LOGO) {
-            pin_state_index = 3;
+            pin_state_index = 4;
         } else {
             pin_state_index = pin; // pin0/1/2
         }
