@@ -98,7 +98,7 @@ static const PullMode pin_pull_mode_mapping[] = {
 };
 
 static uint8_t pin_pull_state[32 + 6];
-static uint16_t touch_state[4];
+static uint16_t touch_state[5]; // increased for mini 4 touchpins plus logo
 static uint16_t button_state[2];
 
 extern "C" {
@@ -229,7 +229,7 @@ int microbit_hal_pin_touch_state(int pin, int *was_touched, int *num_touches) {
     if (was_touched != NULL || num_touches != NULL) {
         int pin_state_index;
         if (pin == MICROBIT_HAL_PIN_LOGO) {
-            pin_state_index = 4;
+            pin_state_index = 4; // changed, mini has pin0/1/2/3 as touchpins
         } else {
             pin_state_index = pin; // pin0/1/2
         }
