@@ -1,8 +1,8 @@
-MicroPython on the micro:bit via CODAL
+MicroPython on the Calliope mini 3 via CODAL
 ======================================
 
-This is a port of MicroPython to the micro:bit which uses the CODAL as the
-underlying target platform.
+This is a port of MicroPython to the Calliope mini V3 which uses the CODAL as the
+underlying target platform. This port is a fork of [Micropython](https://github.com/microbit-foundation/micropython-microbit-v2) for the BBC micro:bit V2. The steps to compile this software are the same.
 
 Setting up
 ----------

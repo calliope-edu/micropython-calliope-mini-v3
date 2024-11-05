@@ -75,6 +75,8 @@ int main() {
     uBit.audio.setSpeakerEnabled(true);
     uBit.audio.setPinEnabled(false);
 
+    uBit.io.logo.isTouched(); // Calliope Workarround for pin3 is touched bug
+
     mp_main();
     return 0;
 }
