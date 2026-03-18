@@ -27,7 +27,7 @@
 #include "py/builtin.h"
 
 const char microbit_help_text[] =
-    "Welcome to MicroPython on the micro:bit!\n"
+    "Welcome to MicroPython on the Calliope mini!\n"
     "\n"
     "Try these commands:\n"
     "  display.scroll('Hello')\n"
@@ -46,12 +46,12 @@ const char microbit_help_text[] =
     "\n"
     "Control commands:\n"
     "  CTRL-C        -- stop a running program\n"
-    "  CTRL-D        -- on a blank line, do a soft reset of the micro:bit\n"
+    "  CTRL-D        -- on a blank line, do a soft reset of the Calliope mini\n"
     "  CTRL-E        -- enter paste mode, turning off auto-indent\n"
     "\n"
     "For a list of available modules, type help('modules')\n"
     "\n"
     "For more information about Python, visit: http://python.org/\n"
     "To find out about MicroPython, visit: http://micropython.org/\n"
-    "Python/micro:bit documentation is here: https://microbit-micropython.readthedocs.io/\n"
+    "For Python/Calliope mini documentation check: https://calliope.cc/en/coding/editors/python"
 ;

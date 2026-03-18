@@ -59,9 +59,9 @@ NRF52Pin *const pin_obj[] = {
     &uBit.io.P13,
     &uBit.io.P14,
     &uBit.io.P15,
-    &uBit.io.P16,
-    &uBit.io.P19, // external I2C SCL
-    &uBit.io.P20, // external I2C SDA
+    &uBit.io.A1RX, // Calliope renamed
+    &uBit.io.A0SCL, // external I2C SCL // Calliope renamed
+    &uBit.io.A0SDA, // external I2C SDA // Calliope renamed
     &uBit.io.logo,
     &uBit.io.speaker,
     &uBit.io.runmic,
@@ -76,6 +76,14 @@ NRF52Pin *const pin_obj[] = {
     &uBit.io.usbTx,
     &uBit.io.usbRx,
     &uBit.io.irq1,
+    &uBit.io.A1TX, // Calliope renamed
+    &uBit.io.P18, // Calliope added
+    &uBit.io.RGB, // Calliope added
+    &uBit.io.M_A_IN1, // Calliope added
+    &uBit.io.M_A_IN2, // Calliope added
+    &uBit.io.M_B_IN1, // Calliope added
+    &uBit.io.M_B_IN2, // Calliope added
+    &uBit.io.M_MODE, // Calliope added
 };
 
 static Button *const button_obj[] = {
@@ -90,7 +98,7 @@ static const PullMode pin_pull_mode_mapping[] = {
 };
 
 static uint8_t pin_pull_state[32 + 6];
-static uint16_t touch_state[4];
+static uint16_t touch_state[5]; // increased for mini 4 touchpins plus logo
 static uint16_t button_state[2];
 
 extern "C" {
@@ -98,6 +106,11 @@ extern "C" {
 void microbit_hal_background_processing(void) {
     // This call takes about 200us.
     Event(DEVICE_ID_SCHEDULER, DEVICE_SCHEDULER_EVT_IDLE);
+
+    // Process Jacdac events if the bus is active
+    if (microbit_hal_jacdac_needs_processing()) {
+        microbit_hal_jacdac_process();
+    }
 }
 
 void microbit_hal_idle(void) {
@@ -221,7 +234,7 @@ int microbit_hal_pin_touch_state(int pin, int *was_touched, int *num_touches) {
     if (was_touched != NULL || num_touches != NULL) {
         int pin_state_index;
         if (pin == MICROBIT_HAL_PIN_LOGO) {
-            pin_state_index = 3;
+            pin_state_index = 4; // changed, mini has pin0/1/2/3 as touchpins
         } else {
             pin_state_index = pin; // pin0/1/2
         }
@@ -478,6 +491,120 @@ int microbit_hal_log_data(const char *key, const char *value) {
 // This is needed by the microbitfs implementation.
 uint32_t rng_generate_random_word(void) {
     return uBit.random(65536) << 16 | uBit.random(65536);
+}
+
+// ============================================================
+// RGB LED HAL — 3x WS2812B NeoPixels on pin_RGB (P0_07)
+// ============================================================
+// WS2812B uses GRB byte order. 3 LEDs = 9 bytes.
+
+#define RGB_LED_COUNT 3
+#define RGB_BPP 3  // bytes per pixel (GRB)
+static uint8_t rgb_buf[RGB_LED_COUNT * RGB_BPP]; // GRB buffer
+static bool rgb_motor_mode_init = false;
+
+static void rgb_flush(void) {
+    // Write buffer to the RGB pin via NeoPixel protocol
+    neopixel_send_buffer(*pin_obj[MICROBIT_HAL_PIN_RGB], rgb_buf, sizeof(rgb_buf));
+}
+
+void microbit_hal_rgb_set_colors(int led_index, int r, int g, int b) {
+    // Clamp values to 0-255
+    if (r < 0) r = 0; if (r > 255) r = 255;
+    if (g < 0) g = 0; if (g > 255) g = 255;
+    if (b < 0) b = 0; if (b > 255) b = 255;
+
+    if (led_index < 0) {
+        // Set all LEDs
+        for (int i = 0; i < RGB_LED_COUNT; i++) {
+            rgb_buf[i * RGB_BPP + 0] = (uint8_t)g; // GRB order
+            rgb_buf[i * RGB_BPP + 1] = (uint8_t)r;
+            rgb_buf[i * RGB_BPP + 2] = (uint8_t)b;
+        }
+    } else if (led_index < RGB_LED_COUNT) {
+        rgb_buf[led_index * RGB_BPP + 0] = (uint8_t)g;
+        rgb_buf[led_index * RGB_BPP + 1] = (uint8_t)r;
+        rgb_buf[led_index * RGB_BPP + 2] = (uint8_t)b;
+    }
+    rgb_flush();
+}
+
+void microbit_hal_rgb_get_colors(int led_index, int *r, int *g, int *b) {
+    if (led_index < 0 || led_index >= RGB_LED_COUNT) {
+        led_index = 0;
+    }
+    *g = rgb_buf[led_index * RGB_BPP + 0]; // GRB order
+    *r = rgb_buf[led_index * RGB_BPP + 1];
+    *b = rgb_buf[led_index * RGB_BPP + 2];
+}
+
+void microbit_hal_rgb_clear(void) {
+    memset(rgb_buf, 0, sizeof(rgb_buf));
+    rgb_flush();
+}
+
+// ============================================================
+// Motor HAL — DRV8835 dual H-bridge in IN/IN mode
+// ============================================================
+// DRV8835 IN/IN mode (MODE pin LOW):
+//   IN1=H, IN2=L → Forward
+//   IN1=L, IN2=H → Reverse
+//   IN1=L, IN2=L → Coast (off)
+//   IN1=H, IN2=H → Brake
+// Speed control via PWM on one of the IN pins.
+
+static void motor_ensure_mode_init(void) {
+    if (!rgb_motor_mode_init) {
+        // Set MODE pin LOW for IN/IN mode
+        pin_obj[MICROBIT_HAL_PIN_M_MODE]->setDigitalValue(0);
+        rgb_motor_mode_init = true;
+    }
+}
+
+void microbit_hal_motor_on(int motor, int speed) {
+    motor_ensure_mode_init();
+
+    int in1_pin, in2_pin;
+    if (motor == 0) {
+        in1_pin = MICROBIT_HAL_PIN_M_A_IN1;
+        in2_pin = MICROBIT_HAL_PIN_M_A_IN2;
+    } else {
+        in1_pin = MICROBIT_HAL_PIN_M_B_IN1;
+        in2_pin = MICROBIT_HAL_PIN_M_B_IN2;
+    }
+
+    if (speed == 0) {
+        // Brake: both pins HIGH
+        pin_obj[in1_pin]->setDigitalValue(1);
+        pin_obj[in2_pin]->setDigitalValue(1);
+    } else if (speed > 0) {
+        // Forward: IN1=PWM, IN2=LOW
+        int pwm_val = (speed * 1023) / 100;
+        pin_obj[in2_pin]->setDigitalValue(0);
+        pin_obj[in1_pin]->setAnalogValue(pwm_val);
+    } else {
+        // Reverse: IN1=LOW, IN2=PWM
+        int pwm_val = (-speed * 1023) / 100;
+        pin_obj[in1_pin]->setDigitalValue(0);
+        pin_obj[in2_pin]->setAnalogValue(pwm_val);
+    }
+}
+
+void microbit_hal_motor_off(int motor) {
+    motor_ensure_mode_init();
+
+    int in1_pin, in2_pin;
+    if (motor == 0) {
+        in1_pin = MICROBIT_HAL_PIN_M_A_IN1;
+        in2_pin = MICROBIT_HAL_PIN_M_A_IN2;
+    } else {
+        in1_pin = MICROBIT_HAL_PIN_M_B_IN1;
+        in2_pin = MICROBIT_HAL_PIN_M_B_IN2;
+    }
+
+    // Coast: both pins LOW
+    pin_obj[in1_pin]->setDigitalValue(0);
+    pin_obj[in2_pin]->setDigitalValue(0);
 }
 
 }

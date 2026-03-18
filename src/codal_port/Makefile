@@ -28,6 +28,7 @@ MBIT_VER_FILE = $(HEADER_BUILD)/microbitversion.h
 LOCAL_LIB_DIR = ../../lib
 CMSIS_DIR = $(LOCAL_LIB_DIR)/codal/libraries/codal-nrf52/inc/cmsis
 NRFX_DIR = $(LOCAL_LIB_DIR)/codal/libraries/codal-nrf52/nrfx
+JACDAC_DIR = $(LOCAL_LIB_DIR)/jacdac-c
 
 INC += -I.
 INC += -I../codal_app
@@ -40,6 +41,11 @@ INC += -I$(NRFX_DIR)/mdk
 INC += -I$(TOP)
 INC += -I$(TOP)/ports/nrf
 INC += -I$(BUILD)
+# Jacdac includes
+INC += -I$(JACDAC_DIR)
+INC += -I$(JACDAC_DIR)/inc
+INC += -I$(JACDAC_DIR)/services
+INC += -I$(JACDAC_DIR)/client
 
 # Compiler settings.
 CWARN = -Wall -Werror
@@ -100,6 +106,38 @@ SRC_C += \
 	modspeech.c \
 	modthis.c \
 	mphalport.c \
+	modjacdac.c \
+	jd_calliope_services.c \
+	jd_platform.c \
+	calliope_rgb.c \
+	calliope_motor.c \
+
+# Jacdac-c core protocol sources
+SRC_C += \
+	$(abspath $(JACDAC_DIR)/source/jd_control.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_physical.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_protocol.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_queue.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_services.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_send_util.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_util.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_bqueue.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_io.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_dmesg.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_opipe.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_ipipe.c) \
+	$(abspath $(JACDAC_DIR)/source/jd_numfmt.c) \
+	$(abspath $(JACDAC_DIR)/source/interfaces/tx_queue.c) \
+	$(abspath $(JACDAC_DIR)/source/interfaces/simple_rx.c) \
+	$(abspath $(JACDAC_DIR)/source/interfaces/event_queue.c) \
+	$(abspath $(JACDAC_DIR)/services/jd_status_light.c) \
+	$(abspath $(JACDAC_DIR)/services/jd_sensor.c) \
+	$(abspath $(JACDAC_DIR)/services/jd_env.c) \
+
+# Jacdac-c client sources (device discovery and role management)
+SRC_C += \
+	$(abspath $(JACDAC_DIR)/client/routing.c) \
+	$(abspath $(JACDAC_DIR)/client/rolemgr.c) \
 
 SRC_C += \
 	shared/readline/readline.c \
@@ -139,5 +177,9 @@ $(MBIT_VER_FILE): FORCE
 
 # Suppress warnings from SAM library.
 $(BUILD)/$(abspath $(LOCAL_LIB_DIR))/sam/sam.o: CWARN += -Wno-array-bounds
+
+# Suppress warnings from jacdac-c library (third-party code).
+$(foreach src,$(filter $(abspath $(JACDAC_DIR))/%,$(SRC_C)),\
+    $(eval $(BUILD)/$(src:.c=.o): CWARN += -Wno-unused-variable -Wno-unused-parameter))
 
 include $(TOP)/py/mkrules.mk

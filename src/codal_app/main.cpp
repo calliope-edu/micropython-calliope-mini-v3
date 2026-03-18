@@ -34,6 +34,7 @@ extern "C" void microbit_hal_timer_callback(void);
 extern "C" void microbit_hal_gesture_callback(int);
 extern "C" void microbit_hal_sound_synth_callback(int);
 extern "C" void microbit_radio_irq_handler(void);
+extern "C" void microbit_hal_jacdac_init(void);
 
 MicroBit uBit;
 
@@ -74,6 +75,11 @@ int main() {
     // select the correct pin when any audio related code is first executed.
     uBit.audio.setSpeakerEnabled(true);
     uBit.audio.setPinEnabled(false);
+
+    uBit.io.logo.isTouched(); // Calliope Workarround for pin3 is touched bug
+
+    // Initialize Jacdac hardware (ZSingleWireSerial on P12)
+    microbit_hal_jacdac_init();
 
     mp_main();
     return 0;

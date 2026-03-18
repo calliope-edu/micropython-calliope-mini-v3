@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index b89e1d0..b53224b 100644
+index 6cf2ec6..436addf 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -38,7 +38,7 @@ set(CMAKE_CXX_COMPILER_WORKS 1)
@@ -11,7 +11,7 @@ index b89e1d0..b53224b 100644
  sbeParseJson(codal codal_json)
  
  set(CODAL_APP_OUTPUT_DIR ".")
-@@ -284,3 +284,11 @@ set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+@@ -288,3 +288,18 @@ set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
  set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
  set(CMAKE_EXE_EXPORTS_C_FLAG "")
  set(CMAKE_EXE_EXPORTS_CXX_FLAG "")
@@ -23,3 +23,10 @@ index b89e1d0..b53224b 100644
 +    IMPORTED_LOCATION "${PROJECT_SOURCE_DIR}/../../src/codal_port/build/libmicropython.a"
 +)
 +target_link_libraries("MICROBIT" micropython)
++target_include_directories("MICROBIT" PRIVATE
++    "${PROJECT_SOURCE_DIR}/../../lib/jacdac-c"
++    "${PROJECT_SOURCE_DIR}/../../lib/jacdac-c/inc"
++    "${PROJECT_SOURCE_DIR}/../../lib/jacdac-c/services"
++    "${PROJECT_SOURCE_DIR}/../../lib/jacdac-c/client"
++    "${PROJECT_SOURCE_DIR}/../../src/codal_port"
++)

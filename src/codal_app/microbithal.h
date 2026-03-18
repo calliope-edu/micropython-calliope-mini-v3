@@ -63,7 +63,15 @@ extern "C" {
 #define MICROBIT_HAL_PIN_SPEAKER (20)
 #define MICROBIT_HAL_PIN_USB_TX (30)
 #define MICROBIT_HAL_PIN_USB_RX (31)
-#define MICROBIT_HAL_PIN_MIXER  (33)
+#define MICROBIT_HAL_PIN_MIXER  (41)
+#define MICROBIT_HAL_PIN_P17    (33) // Calliope added
+#define MICROBIT_HAL_PIN_P18    (34) // Calliope added
+#define MICROBIT_HAL_PIN_RGB    (35) // Calliope added
+#define MICROBIT_HAL_PIN_M_A_IN1    (36) // Calliope added
+#define MICROBIT_HAL_PIN_M_A_IN2    (37) // Calliope added
+#define MICROBIT_HAL_PIN_M_B_IN1    (38) // Calliope added
+#define MICROBIT_HAL_PIN_M_B_IN2    (39) // Calliope added
+#define MICROBIT_HAL_PIN_M_MODE    (40) // Calliope added
 
 // These match the micro:bit v1 constants.
 #define MICROBIT_HAL_PIN_PULL_UP (0)
@@ -192,6 +200,26 @@ void microbit_hal_audio_ready_callback(void);
 void microbit_hal_audio_speech_init(uint32_t sample_rate);
 void microbit_hal_audio_speech_write_data(const uint8_t *buf, size_t num_samples);
 void microbit_hal_audio_speech_ready_callback(void);
+
+// --- Jacdac HAL (Calliope mini V3) ---
+void microbit_hal_jacdac_init(void);
+void microbit_hal_jacdac_start(void);
+void microbit_hal_jacdac_stop(void);
+bool microbit_hal_jacdac_is_running(void);
+void microbit_hal_jacdac_process(void);
+bool microbit_hal_jacdac_needs_processing(void);
+
+// --- RGB LED HAL (3x WS2812B on pin_RGB) ---
+// led_index: 0-2 for individual LED, -1 for all LEDs
+void microbit_hal_rgb_set_colors(int led_index, int r, int g, int b);
+void microbit_hal_rgb_get_colors(int led_index, int *r, int *g, int *b);
+void microbit_hal_rgb_clear(void);
+
+// --- Motor HAL (DRV8835 dual H-bridge) ---
+// motor: 0 = Motor A, 1 = Motor B
+// speed: -100 to +100 (negative = reverse)
+void microbit_hal_motor_on(int motor, int speed);
+void microbit_hal_motor_off(int motor);
 
 #ifdef __cplusplus
 }

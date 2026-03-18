@@ -110,6 +110,18 @@ extern const struct _microbit_pin_obj_t microbit_p19_obj;
 extern const struct _microbit_pin_obj_t microbit_p20_obj;
 extern const struct _microbit_pin_obj_t microbit_pin_logo_obj;
 extern const struct _microbit_pin_obj_t microbit_pin_speaker_obj;
+extern const struct _microbit_pin_obj_t microbit_p17_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_p18_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_pin_RGB_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_pin_M_A_IN1_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_pin_M_A_IN2_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_pin_M_B_IN1_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_pin_M_B_IN2_obj; // Calliope Added
+extern const struct _microbit_pin_obj_t microbit_pin_M_MODE_obj; // Calliope Added
+
+// Calliope mini V3 high-level hardware objects
+extern const struct _calliope_led_obj_t calliope_led_obj;
+extern const struct _calliope_motor_obj_t calliope_motor_obj;
 
 extern struct _microbit_i2c_obj_t microbit_i2c_obj;
 extern const struct _microbit_uart_obj_t microbit_uart_obj;

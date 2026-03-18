@@ -8,7 +8,7 @@ CODAL_BUILD = $(CODAL_DIR)/build
 CODAL_LIBRARIES = $(CODAL_DIR)/libraries
 SRC_HEX = $(BUILD)/MICROBIT.hex
 SRC_MAP = $(CODAL_BUILD)/MICROBIT.map
-DEST_HEX = ./MICROBIT.hex
+DEST_HEX = ./MINI.hex
 
 define CODAL_CLEAN
 	git -C $(CODAL_DIR) checkout CMakeLists.txt
@@ -27,7 +27,7 @@ all: codal_build
 codal_cmake:
 	$(MKDIR) -p $(BUILD)
 	$(call CODAL_PATCH)
-	(cd $(BUILD) && cmake ../$(CODAL_DIR) -DCMAKE_BUILD_TYPE=MinSizeRel)
+	(cd $(BUILD) && cmake ../$(CODAL_DIR) -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_POLICY_VERSION_MINIMUM=3.5)
 	$(call CODAL_CLEAN)
 
 # Build the codal app and make the final HEX file

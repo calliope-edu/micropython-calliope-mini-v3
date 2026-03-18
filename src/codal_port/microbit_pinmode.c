@@ -29,7 +29,7 @@
 #include "modmicrobit.h"
 #include "modmusic.h"
 
-uint8_t microbit_pinmode_indices[32] = { 0 };
+uint8_t microbit_pinmode_indices[41] = { 0 };
 
 const microbit_pinmode_t *microbit_pin_get_mode(const microbit_pin_obj_t *pin) {
     uint8_t pinmode = microbit_pinmode_indices[pin->number];
