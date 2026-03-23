@@ -4,3 +4,6 @@
 [submodule "lib/codal"]
 	path = lib/codal
 	url = https://github.com/lancaster-university/codal.git
+[submodule "lib/jacdac-c"]
+	path = lib/jacdac-c
+	url = https://github.com/jacdac/jacdac-c.git
