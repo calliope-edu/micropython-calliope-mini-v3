@@ -2,19 +2,29 @@
     "target": {
         "name": "codal-microbit-v2",
         "url": "https://github.com/calliope-edu/codal-microbit-v2",
-        "branch": "v0.2.67-calliope-rc1_b",
+        "branch": "v0.3.5-calliope-more2",
         "type": "git",
         "test_ignore": true
-    } ,
-    "config":{
+    },
+    "config": {
         "DEVICE_STACK_SIZE": 8192,
-        "MICROBIT_BLE_ENABLED" : 0,
+        "MICROBIT_SD_GATT_TABLE_SIZE": "0x600",
+        "MICROBIT_BLE_ENABLED": 1,
         "MICROBIT_BLE_PAIRING_MODE": 1,
-        "MICROBIT_BLE_PARTIAL_FLASHING" : 1,
+        "MICROBIT_BLE_PARTIAL_FLASHING": 1,
+        "MICROBIT_BLE_DFU_SERVICE": 1,
+        "MICROBIT_BLE_EVENT_SERVICE": 0,
+        "MICROBIT_BLE_DEVICE_INFORMATION_SERVICE": 1,
+        "MICROBIT_BLE_PRIVATE_ADDRESSES": 0,
+        "MICROBIT_BLE_ADVERTISING_TIMEOUT": 0,
+        "MICROBIT_BLE_DEFAULT_TX_POWER": 6,
+        "MICROBIT_BLE_OPEN": 0,
         "MICROBIT_BLE_SECURITY_MODE": 2,
+        "MICROBIT_BLE_WHITELIST": 1,
+        "MICROBIT_BLE_UTILITY_SERVICE": 1,
         "MICROBIT_BLE_UTILITY_SERVICE_PAIRING": 1,
         "MICROBIT_USB_SERIAL_WAKE": 1,
-        "LEVEL_DETECTOR_SPL_8BIT_000_POINT": 52.0 
+        "LEVEL_DETECTOR_SPL_8BIT_000_POINT": 52.0
     },
     "application": "../../src/codal_app",
     "output_folder": "../../src/build"
