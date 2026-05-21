@@ -196,8 +196,14 @@ def main():
     parse_map_file(args.mapfile[0], symbols)
 
     # Get the required symbol addresses.
+    # When the build is configured without BLE (DEVICE_BLE=0,
+    # MICROBIT_BLE_ENABLED=0 — the "radio" variant), no SoftDevice is
+    # linked in, so `_binary_softdevice_bin_start` is missing from the
+    # map. Skip the SoftDevice region entry in that case; the partial
+    # flashing service handles a missing region 1 fine, and clients
+    # already know to detect that scenario.
     sd_start = symbols["_binary_softdevice_bin_start"]
-    sd_end = symbols["__isr_vector"]
+    sd_end = symbols["__isr_vector"] if sd_start is not None else None
     mp_start = symbols["__isr_vector"]
     data_len = symbols["__data_end__"] - symbols["__data_start__"]
     mp_end = symbols["__etext"] + data_len
@@ -207,7 +213,8 @@ def main():
 
     # Make the flash layout information table.
     layout = FlashLayout()
-    layout.add_region(1, sd_start, sd_end - sd_start, FlashLayout.REGION_HASH_NONE)
+    if sd_start is not None:
+        layout.add_region(1, sd_start, sd_end - sd_start, FlashLayout.REGION_HASH_NONE)
     layout.add_region(
         2, mp_start, mp_end - mp_start, FlashLayout.REGION_HASH_PTR, mp_version
     )
@@ -229,7 +236,10 @@ def main():
     # Print information.
     if args.output is not sys.stdout:
         fmt = "{:13} 0x{:05x}..0x{:05x}  {:6} bytes"
-        print(fmt.format("SoftDevice", sd_start, sd_end, sd_end - sd_start))
+        if sd_start is not None:
+            print(fmt.format("SoftDevice", sd_start, sd_end, sd_end - sd_start))
+        else:
+            print("SoftDevice    (omitted — radio-only build, no BLE stack)")
         print(fmt.format("MicroPython", mp_start, mp_end, mp_end - mp_start))
         print(fmt.format("Layout table", layout_addr, layout_addr + len(layout.data), len(layout.data)))
         print(fmt.format("Filesystem", fs_start, fs_end, fs_end - fs_start))
